@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Open Drive Folder</title>
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; margin: 2rem; color: #1f2937; }
-    a { color: #0079d1; text-decoration: underline; }
-    .links { margin-top: 1rem; display: flex; gap: 1.25rem; }
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 2.5rem; color: #1f2937; }
+    .btn { display: inline-block; padding: 0.65rem 1.15rem; background: #00667E; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 600; }
+    .btn:hover { background: #005266; }
+    .sec { margin-left: 1rem; color: #0079d1; text-decoration: underline; }
+    .tip { margin-top: 0.75rem; font-size: 0.9rem; color: #6b7280; }
+    .actions { margin-top: 1.25rem; }
   </style>
 </head>
 <body>
-  <p id="msg">Opening folder in Windows Explorer...</p>
-  <div id="links" class="links" hidden>
-    <a id="exp" href="#">Open in Windows Explorer</a>
-    <a id="drv" href="#" target="_blank" rel="noopener">Open in Google Drive</a>
+  <h2 id="msg" style="margin:0;font-size:1.15rem;">Open folder in Windows Explorer</h2>
+  <p id="tip" class="tip" hidden>First time: tick "Always allow" in Chrome's prompt, or click the button below.</p>
+  <div id="actions" class="actions" hidden>
+    <a id="exp" class="btn" href="#">Open in Windows Explorer</a>
+    <a id="drv" class="sec" href="#" target="_blank" rel="noopener">Open in Google Drive</a>
   </div>
   <script>
     (function () {
@@ -28,9 +32,17 @@
       var driveUrl = 'https://drive.google.com/drive/folders/' + encodeURIComponent(id);
       document.getElementById('exp').href = explorerUrl;
       document.getElementById('drv').href = driveUrl;
-      document.getElementById('links').hidden = false;
+      document.getElementById('tip').hidden = false;
+      document.getElementById('actions').hidden = false;
+
+      var launchedAt = Date.now();
+      window.addEventListener('blur', function () {
+        if (Date.now() - launchedAt < 8000) {
+          setTimeout(function () { window.close(); }, 600);
+        }
+      });
+
       window.location.href = explorerUrl;
-      setTimeout(function () { window.close(); }, 1800);
     })();
   </script>
 </body>
