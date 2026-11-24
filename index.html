@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open Drive Folder</title>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 2rem; color: #1f2937; }
+    a { color: #0079d1; text-decoration: underline; }
+    .links { margin-top: 1rem; display: flex; gap: 1.25rem; }
+  </style>
+</head>
+<body>
+  <p id="msg">Opening folder in Windows Explorer...</p>
+  <div id="links" class="links" hidden>
+    <a id="exp" href="#">Open in Windows Explorer</a>
+    <a id="drv" href="#" target="_blank" rel="noopener">Open in Google Drive</a>
+  </div>
+  <script>
+    (function () {
+      var id = new URLSearchParams(window.location.search).get('id') || '';
+      var msg = document.getElementById('msg');
+      if (!/^[A-Za-z0-9_-]{10,64}$/.test(id)) {
+        msg.textContent = 'Missing or invalid folder ID.';
+        return;
+      }
+      var explorerUrl = 'aexdrive://open?id=' + encodeURIComponent(id);
+      var driveUrl = 'https://drive.google.com/drive/folders/' + encodeURIComponent(id);
+      document.getElementById('exp').href = explorerUrl;
+      document.getElementById('drv').href = driveUrl;
+      document.getElementById('links').hidden = false;
+      window.location.href = explorerUrl;
+      setTimeout(function () { window.close(); }, 1800);
+    })();
+  </script>
+</body>
+</html>
