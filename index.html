@@ -35,13 +35,6 @@
       document.getElementById('tip').hidden = false;
       document.getElementById('actions').hidden = false;
 
-      var launchedAt = Date.now();
-      window.addEventListener('blur', function () {
-        if (Date.now() - launchedAt < 8000) {
-          setTimeout(function () { window.close(); }, 600);
-        }
-      });
-
       window.location.href = explorerUrl;
     })();
   </script>
