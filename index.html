@@ -36,6 +36,9 @@
       document.getElementById('actions').hidden = false;
 
       window.location.href = explorerUrl;
+      if (new URLSearchParams(window.location.search).get('stay') !== '1') {
+        setTimeout(function () { window.close(); }, 1200);
+      }
     })();
   </script>
 </body>
